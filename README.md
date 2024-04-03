@@ -1,1 +1,4 @@
-# fitpeotask
+- create new react app in your system
+- add components in src folder
+- replace App.js
+- replace index.html page in public folder
