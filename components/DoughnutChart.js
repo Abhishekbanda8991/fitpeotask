@@ -1,53 +1,46 @@
-import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import React, { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
+import "./DoughnutChart.css"
 
 const DoughnutChart = () => {
+    const chartRef = useRef(null);
 
-    const data = {
-
-        datasets: [
-            {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                data: [8, 19, 13],
-                backgroundColor: [
-                    'pink',
-                    'blue',
-                    'lightgrey',
-
-                ],
-                borderColor: [
-                    'pink',
-                    'blue',
-                    'lightgrey',
-
-                ],
+    useEffect(() => {
+        const ctx = chartRef.current.getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [20, 30, 30],
+                    backgroundColor: [
+                        'pink',
+                        'blue',
+                        'lightgrey'
+                    ],
+                    borderColor: [
+                        'pink',
+                        'blue',
+                        'lightgrey'
+                    ],
+                    borderWidth: 1
+                }]
             },
-        ],
-    };
+            options: {
+                cutout: 80
+            }
+        });
 
-    const options = {
-        maintainAspectRatio: false,
-        cutout: '70%',
-    };
-
-    const style = {
-        width: '270px',
-        height: '270px',
-        position: 'relative',
-        left: '42px',
-        bottom: '120px',
-    }
+        return () => {
+            myChart.destroy();
+        };
+    }, []);
 
     return (
-        <div>
-            <div style={style}>
-                <Doughnut data={data} options={options} />
-            </div>
+        <div style={{width: '240px', height: '240px', display: 'block', marginLeft: 'auto', marginRight: "auto", position: 'relative', bottom: '2%'}}>
+            <canvas ref={chartRef} />
         </div>
-    )
-}
+    );
+};
 
 export default DoughnutChart;
